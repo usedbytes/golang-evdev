@@ -33,7 +33,7 @@ type InputDevice struct {
 
 // Open an evdev input device.
 func Open(devnode string) (*InputDevice, error) {
-	f, err := os.Open(devnode)
+	f, err := os.OpenFile(devnode, os.O_RDWR, 0)
 	if err != nil {
 		return nil, err
 	}

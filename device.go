@@ -229,6 +229,16 @@ type AbsInfo struct {
 	resolution int32
 }
 
+func (dev *InputDevice) GetAbsInfo(axis int) (AbsInfo, error) {
+	var info AbsInfo
+	errno := ioctl(dev.File.Fd(), uintptr(EVIOCGABS(axis)), unsafe.Pointer(&info))
+	if errno != 0 {
+		return AbsInfo{}, error(errno)
+	}
+
+	return info, nil
+}
+
 // Corresponds to the input_id struct.
 type device_info struct {
 	bustype, vendor, product, version uint16
